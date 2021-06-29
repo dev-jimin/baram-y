@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100;">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>환수 뽑기</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.5.0/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <style type="text/css">
+        .navbar {
+            border-bottom: 1px solid #eaeaea;
+        }
+        .starter-template {
+          padding: 40px 15px;
+          text-align: center;
+          height: 100;
+        }
+        .row {
+            margin: 0px;
+        }
+        .container {
+            width: 100 !important;
+        }
+        .summoned-camp {
+            min-height: 126px;
+            border: 2px solid #8e8e93;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+        .max-20 {
+            max-width: 20;
+        }
+        .bg-purple {
+            background-color: #7112FF !important;
+        }
+        .badge {
+            margin-left: 2px;
+            margin-right: 2px;
+        }
+        .container-camp {
+          margin-top: 50px;
+          display: grid;
+          grid-template-columns: auto auto auto auto auto;
+          gap: 10px;
+        }
+        .card {
+          width: 150px;
+          height: 50px;
+          margin: 0 3px;
+          perspective: 140px;
+          display: inline-block;
+          border: none !important;
+        }
+        .card-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          transition: transform 0.8s;
+          transform-style: preserve-3d;
+        }
+        .card.flipped .card-inner {
+          transform: rotateY(180deg);
+        }
+        .card-front,
+        .card-back {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          border: 1px solid #333;
+          box-sizing: border-box;
+          backface-visibility: hidden;
+        }
+        .card-back {
+          transform: rotateY(180deg);
+        }
+        .btn-lg {
+            width: 100%;
+        }
+    </style>
+</head>
+<body style="height: 100;">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#"><i class="fas fa-dice"></i>환수 뽑기</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container" style="height: 100;">
+
+      <div class="starter-template">
+
+        <div class="summoned-camp">
+        </div>
+
+        <button type="button" class="btn btn-primary btn-lg btn-block" id="summoned-card">10회 뽑기</button>
+        <button type="button" class="btn btn-secondary btn-lg btn-block" id="card-open">전체 열기</button>
+
+      </div>
+    </div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.5.0/js/bootstrap4-toggle.min.js"></script>
+<script type="text/javascript">
+
+var common = [{'name':'흰토끼', 'prob':3670, 'ctg':'수호', 'grade':'일반'},
+{'name':'다람쥐', 'prob':3670, 'ctg':'수호', 'grade':'일반'},
+{'name':'녹등거북', 'prob':3670, 'ctg':'수호', 'grade':'일반'},
+{'name':'양', 'prob':3203, 'ctg':'수호', 'grade':'일반'},
+{'name':'청어연', 'prob':3203, 'ctg':'수호', 'grade':'일반'},
+{'name':'흑어연', 'prob':3203, 'ctg':'수호', 'grade':'일반'},
+{'name':'누렁이', 'prob':2403, 'ctg':'수호', 'grade':'일반'},
+{'name':'포포', 'prob':2403, 'ctg':'수호', 'grade':'일반'},
+{'name':'분홍양', 'prob':2403, 'ctg':'수호', 'grade':'일반'},
+{'name':'까마귀', 'prob':2403, 'ctg':'수호', 'grade':'일반'},
+{'name':'밤사슴벌레', 'prob':2403, 'ctg':'수호', 'grade':'일반'},
+{'name':'말', 'prob':3300, 'ctg':'탑승', 'grade':'일반'},
+{'name':'사슴', 'prob':3300, 'ctg':'탑승', 'grade':'일반'},
+{'name':'당나귀', 'prob':3300, 'ctg':'탑승', 'grade':'일반'},
+{'name':'백마', 'prob':3087, 'ctg':'탑승', 'grade':'일반'},
+{'name':'꽃사슴', 'prob':3087, 'ctg':'탑승', 'grade':'일반'},
+{'name':'흑당나귀', 'prob':3087, 'ctg':'탑승', 'grade':'일반'},
+{'name':'순록', 'prob':2694, 'ctg':'탑승', 'grade':'일반'},
+{'name':'푸른늑대', 'prob':2694, 'ctg':'탑승', 'grade':'일반'},
+{'name':'옥순록', 'prob':2021, 'ctg':'탑승', 'grade':'일반'},
+{'name':'은빛늑대', 'prob':2021, 'ctg':'탑승', 'grade':'일반'},
+{'name':'개구리', 'prob':2021, 'ctg':'탑승', 'grade':'일반'},
+{'name':'백깃참새', 'prob':2021, 'ctg':'탑승', 'grade':'일반'},
+{'name':'삼류 12지신:토끼', 'prob':1238, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 12지신:쥐', 'prob':1238, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 12지신:돼지', 'prob':1081, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 12지신:양', 'prob':1081, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 12지신:말', 'prob':811, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 12지신:뱀', 'prob':811, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 적안백묘', 'prob':811, 'ctg':'변신', 'grade':'일반'},
+{'name':'삼류 적안백랑', 'prob':811, 'ctg':'변신', 'grade':'일반'}];
+var uncommon = [{'name':'흰당근토끼', 'prob':350, 'ctg':'수호', 'grade':'고급'},
+{'name':'도톨람쥐', 'prob':350, 'ctg':'수호', 'grade':'고급'},
+{'name':'녹등따개비거북', 'prob':350, 'ctg':'수호', 'grade':'고급'},
+{'name':'방랑누렁이', 'prob':294, 'ctg':'수호', 'grade':'고급'},
+{'name':'낭만고양이', 'prob':294, 'ctg':'수호', 'grade':'고급'},
+{'name':'쥐와 양', 'prob':294, 'ctg':'수호', 'grade':'고급'},
+{'name':'쥐와 분홍양', 'prob':214, 'ctg':'수호', 'grade':'고급'},
+{'name':'푸른여우', 'prob':214, 'ctg':'수호', 'grade':'고급'},
+{'name':'붉은늑대', 'prob':214, 'ctg':'수호', 'grade':'고급'},
+{'name':'원숭이', 'prob':214, 'ctg':'수호', 'grade':'고급'},
+{'name':'흑사슴벌레', 'prob':214, 'ctg':'수호', 'grade':'고급'},
+{'name':'갈기말', 'prob':1383, 'ctg':'탑승', 'grade':'고급'},
+{'name':'큰 뿔사슴', 'prob':1383, 'ctg':'탑승', 'grade':'고급'},
+{'name':'당근나귀', 'prob':1383, 'ctg':'탑승', 'grade':'고급'},
+{'name':'갈기백마', 'prob':1277, 'ctg':'탑승', 'grade':'고급'},
+{'name':'큰 뿔꽃사슴', 'prob':1277, 'ctg':'탑승', 'grade':'고급'},
+{'name':'흑당근나귀', 'prob':1277, 'ctg':'탑승', 'grade':'고급'},
+{'name':'큰 순록', 'prob':1140, 'ctg':'탑승', 'grade':'고급'},
+{'name':'염소', 'prob':1140, 'ctg':'탑승', 'grade':'고급'},
+{'name':'큰 옥순록', 'prob':958, 'ctg':'탑승', 'grade':'고급'},
+{'name':'한혈마', 'prob':958, 'ctg':'탑승', 'grade':'고급'},
+{'name':'길든 푸른늑대', 'prob':958, 'ctg':'탑승', 'grade':'고급'},
+{'name':'흑염소', 'prob':958, 'ctg':'탑승', 'grade':'고급'},
+{'name':'천리마', 'prob':696, 'ctg':'탑승', 'grade':'고급'},
+{'name':'길든 은빛늑대', 'prob':696, 'ctg':'탑승', 'grade':'고급'},
+{'name':'청개구리', 'prob':696, 'ctg':'탑승', 'grade':'고급'},
+{'name':'거대참새', 'prob':696, 'ctg':'탑승', 'grade':'고급'},
+{'name':'이류 12지신:토끼', 'prob':221, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:쥐', 'prob':221, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:돼지', 'prob':209, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:양', 'prob':209, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:말', 'prob':193, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:뱀', 'prob':193, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:원숭이', 'prob':172, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 12지신:소', 'prob':172, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 적안백묘', 'prob':105, 'ctg':'변신', 'grade':'고급'},
+{'name':'이류 적안백랑', 'prob':105, 'ctg':'변신', 'grade':'고급'}];
+var rare = [{'name':'푸른주술여우', 'prob':20, 'ctg':'수호', 'grade':'희귀'},
+{'name':'붉은갈기늑대', 'prob':20, 'ctg':'수호', 'grade':'희귀'},
+{'name':'학자까마귀', 'prob':20, 'ctg':'수호', 'grade':'희귀'},
+{'name':'상등청어연', 'prob':20, 'ctg':'수호', 'grade':'희귀'},
+{'name':'상등흑어연', 'prob':20, 'ctg':'수호', 'grade':'희귀'},
+{'name':'갑주원', 'prob':20, 'ctg':'수호', 'grade':'희귀'},
+{'name':'청깨비불', 'prob':17, 'ctg':'수호', 'grade':'희귀'},
+{'name':'녹깨비불', 'prob':17, 'ctg':'수호', 'grade':'희귀'},
+{'name':'삼두일족매', 'prob':17, 'ctg':'수호', 'grade':'희귀'},
+{'name':'돌하루방', 'prob':17, 'ctg':'수호', 'grade':'희귀'},
+{'name':'백년녹사', 'prob':17, 'ctg':'수호', 'grade':'희귀'},
+{'name':'백년적사', 'prob':17, 'ctg':'수호', 'grade':'희귀'},
+{'name':'화산돌하루방', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'해골짐꾼', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'저승짐꾼', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'주유', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'황주유', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'밤전령벌레', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'적깨비불', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'바늘도둑사마귀', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'어린붉은판다', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'여행자 쿼카', 'prob':12, 'ctg':'수호', 'grade':'희귀'},
+{'name':'짐꾼염소', 'prob':301, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'마갑한혈마', 'prob':274, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'짐꾼흑염소', 'prob':274, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'마갑천리마', 'prob':242, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'곰', 'prob':201, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'호랑이', 'prob':201, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'푸른해마', 'prob':201, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'청웅', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'백호', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'붉은해마', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'무사개구리', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'파발꾼백깃참새', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'녹띠사자탈', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'노비두더지', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'한살초롱아귀', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'단원 멧돼지', 'prob':145, 'ctg':'탑승', 'grade':'희귀'},
+{'name':'일류 12지신:토끼', 'prob':18, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:쥐', 'prob':18, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:돼지', 'prob':17, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:양', 'prob':17, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:말', 'prob':15, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:뱀', 'prob':15, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:원숭이', 'prob':14, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:소', 'prob':14, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:닭', 'prob':11, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:개', 'prob':11, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:호랑이', 'prob':8, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 12지신:용', 'prob':8, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 적안백묘', 'prob':8, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 적안백랑', 'prob':8, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 녹림각록', 'prob':8, 'ctg':'변신', 'grade':'희귀'},
+{'name':'일류 야행휴류', 'prob':8, 'ctg':'변신', 'grade':'희귀'}];
+var treasure = [{'name':'강청깨비불', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'강녹깨비불', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'돌장군', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'해골일꾼', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'저승일꾼', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'혼불주유', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'혼불황주유', 'prob':14, 'ctg':'수호', 'grade':'보물'},
+{'name':'화산돌장군', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'견인', 'prob':12, 'ctg':'수호', 'grade':'보물'},
+{'name':'백견인', 'prob':12, 'ctg':'수호', 'grade':'보물'},
+{'name':'묘인', 'prob':12, 'ctg':'수호', 'grade':'보물'},
+{'name':'흑묘인', 'prob':12, 'ctg':'수호', 'grade':'보물'},
+{'name':'갑삼두일족매', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'어린 궁기', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'흑전령벌레', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'강적깨비불', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'소도둑사마귀', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'견습붉은판다', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'탐험가 쿼카', 'prob':8, 'ctg':'수호', 'grade':'보물'},
+{'name':'길든 곰', 'prob':87, 'ctg':'탑승', 'grade':'보물'},
+{'name':'길든 호랑이', 'prob':87, 'ctg':'탑승', 'grade':'보물'},
+{'name':'두목 푸른해마', 'prob':87, 'ctg':'탑승', 'grade':'보물'},
+{'name':'길든 청웅', 'prob':81, 'ctg':'탑승', 'grade':'보물'},
+{'name':'길든 백호', 'prob':81, 'ctg':'탑승', 'grade':'보물'},
+{'name':'두목 붉은해마', 'prob':81, 'ctg':'탑승', 'grade':'보물'},
+{'name':'청령랑', 'prob':74, 'ctg':'탑승', 'grade':'보물'},
+{'name':'청령마', 'prob':74, 'ctg':'탑승', 'grade':'보물'},
+{'name':'녹령랑', 'prob':65, 'ctg':'탑승', 'grade':'보물'},
+{'name':'녹령마', 'prob':65, 'ctg':'탑승', 'grade':'보물'},
+{'name':'흑철마', 'prob':65, 'ctg':'탑승', 'grade':'보물'},
+{'name':'백살갈묘', 'prob':53, 'ctg':'탑승', 'grade':'보물'},
+{'name':'홍의기린', 'prob':53, 'ctg':'탑승', 'grade':'보물'},
+{'name':'철마', 'prob':53, 'ctg':'탑승', 'grade':'보물'},
+{'name':'백살흑묘', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'청의기린', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'무사청개구리', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'파발꾼거대참새', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'녹뿔사자탈', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'상인두더지', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'백살초롱아귀', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'간부 멧돼지', 'prob':38, 'ctg':'탑승', 'grade':'보물'},
+{'name':'진 12지신:원숭이', 'prob':14, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:소', 'prob':14, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:닭', 'prob':12, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:개', 'prob':12, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:돼지', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:양', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:호랑이', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 12지신:용', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 적안백묘', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 적안백랑', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 녹림각록', 'prob':8, 'ctg':'변신', 'grade':'보물'},
+{'name':'진 야행휴류', 'prob':8, 'ctg':'변신', 'grade':'보물'}];
+
+var total_prob = 0;
+var totalArray = [];
+totalArray = totalArray.concat(common);
+totalArray = totalArray.concat(uncommon);
+totalArray = totalArray.concat(rare);
+totalArray = totalArray.concat(treasure);
+
+for (var i=0; i<common.length - 1; i++) { total_prob += common[i].prob; }
+for (var i=0; i<uncommon.length - 1; i++) { total_prob += uncommon[i].prob; }
+for (var i=0; i<rare.length - 1; i++) { total_prob += rare[i].prob; }
+for (var i=0; i<treasure.length - 1; i++) { total_prob += treasure[i].prob; }
+
+function run() {
+    var result = [];
+    while (result.length < 10) {
+
+        shuffle(totalArray);
+        var pop = Math.floor(Math.random() * total_prob);
+        for (var i=0; i<totalArray.length; i++) {
+            pop -= totalArray[i].prob;
+            if (pop <= 0) {
+                console.log(JSON.stringify(totalArray[i]));
+                result.push(totalArray[i]);
+                break;
+            }
+        }
+    }
+
+    const horizontal = 5;
+    const vertical = 2;
+    const container = document.querySelector(".summoned-camp");
+
+    const setting = (hori, verti) => {
+      for (let i = 0; i < hori * verti; i++) {
+        // 문서객체를 생성
+        const card = document.createElement("div");
+        const cardInner = document.createElement("div");
+        const cardFront = document.createElement("div");
+        const cardBack = document.createElement("div");
+
+        // 생성한 문서객체에 클래스를 부여
+        card.classList.add("card");
+        cardInner.classList.add("card-inner");
+        cardFront.classList.add("card-front");
+        cardBack.classList.add("card-back");
+        cardBack.classList.add(getColor(result[i]));
+        cardBack.setAttribute("data-name", result[i].name);
+        cardBack.setAttribute("data-grade", result[i].grade);
+        cardBack.setAttribute("data-ctg", result[i].ctg);
+
+        // 문서객체를 추가하기
+        container.appendChild(card);
+        card.appendChild(cardInner);
+        cardInner.appendChild(cardFront);
+        cardInner.appendChild(cardBack);
+
+        // 앞면에 카드 색 넣기
+        cardFront.style.backgroundColor = "navy";
+        // 뒷면에 카드 색 넣기
+        cardBack.style.backgroundColor = "gray";
+
+        //card.attr('d', result[i]);
+
+        // toggle기능 부여
+        card.addEventListener("click", () => {
+          card.classList.toggle("flipped");
+        });
+      }
+    };
+    setting(horizontal, vertical);
+    setCardBack();
+}
+
+
+$('#card-open').hide();
+$('#summoned-card').on('click', function() {
+    $('.summoned-camp').html('');
+    $('#summoned-card').hide();
+    $('#card-open').show();
+    run();
+});
+
+$('#card-open').on('click', function() {
+    const Cards = document.querySelectorAll(".card");
+    $('#summoned-card').show();
+    $('#card-open').hide();
+    // forEach 함수를 사용 카드 열기
+    Cards.forEach((aCard, index) => {
+      // setTimeout 함수를 사용
+      setTimeout(() => {
+        aCard.classList.add("flipped");
+      }, 100 * index);
+    });
+});
+
+function setCardBack() {
+    const cards = $('.card-back');
+    for (let i = 0; i<cards.length; i++) {
+        let name = cards.eq(i).attr('data-name');
+        let grade = cards.eq(i).attr('data-grade');
+        let ctg = cards.eq(i).attr('data-ctg');
+        let html = "<b>" + grade + " " + ctg + "</b><p>" + name + "</p>";
+        cards.eq(i).html(html);
+    }
+}
+
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+
+function getColor(d) {
+    switch (d.grade) {
+        case "일반":
+            return "bg-secondary";
+        case "고급":
+            return "bg-success";
+        case "희귀":
+            return "bg-info";
+        case "보물":
+            return "bg-purple";
+    }
+}
+
+</script>
+</html>
