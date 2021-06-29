@@ -17,7 +17,7 @@
             border-bottom: 1px solid #eaeaea;
         }
         .starter-template {
-          padding: 40px 15px;
+          padding: 20px 5px;
           text-align: center;
           height: 100;
         }
@@ -52,7 +52,7 @@
         .card {
           width: 150px;
           height: 50px;
-          margin: 0 3px;
+          margin: 2px 15px;
           perspective: 140px;
           -webkit-perspective: 140px;
           -moz-perspective: 140px;
@@ -105,13 +105,17 @@
         .btn-lg {
             width: 100%;
         }
+        .inventory {
+          margin-top: 20px;
+          margin-bottom: 20px;
+        }
     </style>
 </head>
 <body style="height: 100;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
-          <a class="navbar-brand" href="#"><i class="fas fa-dice"></i>환수 뽑기</a>
+          <a class="navbar-brand" href="#"><i class="fas fa-dice"></i> 환수 뽑기 </a>
         </div>
       </div>
     </nav>
@@ -125,6 +129,23 @@
 
         <button type="button" class="btn btn-primary btn-lg btn-block" id="summoned-card">10회 뽑기</button>
         <button type="button" class="btn btn-secondary btn-lg btn-block" id="card-open">전체 열기</button>
+
+        <div class="inventory">
+          <div style="margin-bottom: 20px;">
+            <span class="badge bg-secondary" id="common-badge">0</span>
+            <span class="badge bg-success" id="uncommon-badge">0</span>
+            <span class="badge bg-info text-dark" id="rare-badge">0</span>
+            <span class="badge bg-purple" id="treasure-badge">0</span>
+          </div>
+          <div style="margin-bottom: 20px;">
+              <i class="fas fa-gem" style="color: red; margin-right: 5px;"></i><span class="badge bg-secondary" id="cost-badge">0</span>
+          </div>
+          <div>
+              <button type="button" class="btn btn-primary" id="btn-reset">
+                초기화 <span class="badge bg-secondary"><i class="fas fa-sync-alt"></i></span>
+              </button>
+          </div>
+        </div>
 
       </div>
     </div>
@@ -323,6 +344,10 @@ for (var i=0; i<uncommon.length - 1; i++) { total_prob += uncommon[i].prob; }
 for (var i=0; i<rare.length - 1; i++) { total_prob += rare[i].prob; }
 for (var i=0; i<treasure.length - 1; i++) { total_prob += treasure[i].prob; }
 
+// 소비 붉보
+var cost = 0;
+var inven = [0, 0, 0, 0];
+
 function run() {
     var result = [];
     while (result.length < 10) {
@@ -356,6 +381,13 @@ function run() {
         cardFront.classList.add("card-front");
         cardBack.classList.add("card-back");
         cardBack.classList.add(getColor(result[i]));
+        if (result[i].grade == '희귀' || result[i].grade == '보물') {
+          // 앞면에 카드 색 넣기
+          cardFront.style.backgroundColor = "darkred";
+        } else {
+          // 앞면에 카드 색 넣기
+          cardFront.style.backgroundColor = "lightskyblue";
+        }
         cardBack.setAttribute("data-name", result[i].name);
         cardBack.setAttribute("data-grade", result[i].grade);
         cardBack.setAttribute("data-ctg", result[i].ctg);
@@ -366,8 +398,7 @@ function run() {
         cardInner.appendChild(cardFront);
         cardInner.appendChild(cardBack);
 
-        // 앞면에 카드 색 넣기
-        cardFront.style.backgroundColor = "navy";
+        
         // 뒷면에 카드 색 넣기
         cardBack.style.backgroundColor = "gray";
 
@@ -403,6 +434,17 @@ $('#card-open').on('click', function() {
         aCard.classList.add("flipped");
       }, 100 * index);
     });
+
+    setTimeout(() => {
+      cost += 1200;
+      setInventory();
+    }, 100 * 10);
+});
+
+$('#btn-reset').on('click', function() {
+  inven = [0, 0, 0, 0];
+  cost = 0;
+  setInventory();
 });
 
 function setCardBack() {
@@ -413,7 +455,26 @@ function setCardBack() {
         let ctg = cards.eq(i).attr('data-ctg');
         let html = "<b>" + grade + " " + ctg + "</b><p>" + name + "</p>";
         cards.eq(i).html(html);
+
+        if (grade == '일반') { inven[0] += 1; }
+        else if (grade == '고급') { inven[1] += 1; }
+        else if (grade == '희귀') { inven[2] += 1; }
+        else if (grade == '보물') { inven[3] += 1; }
     }
+}
+
+function setInventory() {
+  $('#common-badge').text(separator(inven[0]));
+  $('#uncommon-badge').text(separator(inven[1]));
+  $('#rare-badge').text(separator(inven[2]));
+  $('#treasure-badge').text(separator(inven[3]));
+  $('#cost-badge').text(separator(cost));
+}
+
+function separator(numb) {
+    var str = numb.toString().split(".");
+    str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return str.join(".");
 }
 
 function shuffle(array) {
