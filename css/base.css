@@ -1,0 +1,182 @@
+.navbar {
+    border-bottom: 1px solid #eaeaea;
+}
+.starter-template {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 47px;
+    text-align: center;
+}
+.row {
+    margin: 0px;
+}
+.container {
+    width: 100% !important;
+    margin: 0;
+}
+.summoned-camp {
+    min-height: 30vh;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+#summoned-root {
+	padding-top: 50px;
+}
+.max-20 {
+    max-width: 20;
+}
+.bg-purple {
+    background-color: #7112FF !important;
+}
+.badge {
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.container-camp {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: auto auto auto auto auto;
+  gap: 10px;
+}
+.card {
+  width: 100px;
+  height: 80px;
+  margin: 2px 5px;
+  perspective: 140px;
+  -webkit-perspective: 140px;
+  -moz-perspective: 140px;
+  -ms-perspective: 140px;
+  -o-perspective: 140px;
+  display: inline-block;
+  border: none !important;
+  background-color: transparent;
+}
+.card-header {
+	padding: 0rem 1rem;
+	font-weight: bold;
+	white-space: nowrap;
+}
+.card-body {
+	padding: 1rem .5rem;
+	font-size: small;
+	white-space: nowrap;
+}
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transition: 0.5s;
+  -moz-transform-style: preserve-3d;
+  -moz-transition: 0.5s;
+  -ms-transform-style: preserve-3d;
+  -ms-transition: 0.5s;
+  -o-transform-style: preserve-3d;
+  -o-transition: 0.5s;
+  transition: 0.5s;
+}
+.card.flipped .card-inner {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  padding-top: 3px;
+  box-sizing: border-box;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+}
+.card-back {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.btn-lg {
+    width: 100%;
+}
+.inventory {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.btn-big-red {
+    background-color: #C63702;
+    background-image: linear-gradient(167deg, rgba(255,255,255, 0.1) 50%, rgba(0,0,0, 0) 55%), linear-gradient(top, rgba(255,255,255, 0.15), rgba(0,0,0, 0));
+    border-radius: 6px;
+    box-shadow: 0 0 0 1px #C63702 inset, 0 0 0 2px rgba(255,255,255, 0.15) inset, 0 8px 0 0 #AD3002,0 8px 0 1px rgba(0,0,0, 0.4), 0 8px 8px 1px rgba(0,0,0, 0.5);
+    color: #FFF;
+    display: inline-block;
+    font-family: "Lucida Grande", Arial, sans-serif;
+    font-size: 22px;
+    font-weight: bold;
+    height: 61px;
+    letter-spacing: -1px;
+    line-height: 61px;
+    margin: 30px 0 10px;
+    position: relative;
+    text-align: center;
+    text-shadow: 0 1px 1px rgba(0,0,0, 0.5);
+    text-decoration: none !important;
+    top: 0;
+    width: 186px;
+    transition:.15s;
+}
+.btn-big-red:hover, .btn-big-red:focus {
+    background-color: #D13902;
+    box-shadow: 0 0 0 1px #C63702 inset, 0 0 0 2px rgba(255,255,255, 0.15) inset, 0 10px 0 0 #AD3002, 0 10px 0 1px rgba(0,0,0, 0.4), 0 10px 8px 1px rgba(0,0,0, 0.6);
+    top: -2px;
+    color:#fff;
+}
+.btn-big-red:active {
+    box-shadow: 0 0 0 1px #AD3002 inset, 0 0 0 2px rgba(255,255,255, 0.15) inset, 0 0 0 1px rgba(0,0,0, 0.4);
+    transform:translate(0,10px);
+    -ms-transform: translate(0,10px); 
+    -webkit-transform: translate(0,10px); 
+}
+
+.red-gradient {
+	background: linear-gradient(-45deg, #ee7752, #e73c7e);
+	background-size: 100%;
+	animation: gradient 8s ease infinite !important;
+	-webkit-animation: gradient 8s ease infinite;
+    -moz-animation: gradient 8s ease infinite;
+}
+
+.blue-gradient {
+	background: linear-gradient(-45deg, #23a6d5, #23d5ab);
+	background-size: 100%;
+	animation: gradient 8s ease infinite !important;
+	-webkit-animation: gradient 8s ease infinite;
+    -moz-animation: gradient 8s ease infinite;
+}
+
+@keyframes gradient {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+@-webkit-keyframes gradient {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
+@-moz-keyframes gradient {
+	0% { background-position: 0% 50%; }
+	50% { background-position: 100% 50%; }
+	100% { background-position: 0% 50%; }
+}
+
