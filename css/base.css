@@ -5,7 +5,7 @@
     position: absolute;
     width: 100%;
     height: 100%;
-    top: 47px;
+    top: 20px;
     text-align: center;
 }
 .row {
@@ -49,7 +49,6 @@
   -ms-perspective: 140px;
   -o-perspective: 140px;
   display: inline-block;
-  border: none !important;
   background-color: transparent;
 }
 .card-header {
@@ -89,9 +88,7 @@
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 6px;
   padding-top: 3px;
-  box-sizing: border-box;
   -webkit-backface-visibility: hidden;
   -moz-backface-visibility: hidden;
   -ms-backface-visibility: hidden;
@@ -147,36 +144,47 @@
 }
 
 .red-gradient {
-	background: linear-gradient(-45deg, #ee7752, #e73c7e);
-	background-size: 100%;
-	animation: gradient 8s ease infinite !important;
-	-webkit-animation: gradient 8s ease infinite;
-    -moz-animation: gradient 8s ease infinite;
+	background: radial-gradient(#76b2fe, #b69efe);
+  border-radius: 3%;
+	-webkit-animation: anim-glow-red 1s ease infinite;
+	-moz-animation: anim-glow-red 1s ease infinite;
+	animation: anim-glow-red 1s ease infinite;
 }
 
-.blue-gradient {
-	background: linear-gradient(-45deg, #23a6d5, #23d5ab);
-	background-size: 100%;
-	animation: gradient 8s ease infinite !important;
-	-webkit-animation: gradient 8s ease infinite;
-    -moz-animation: gradient 8s ease infinite;
+.blue-gradient  {
+	background: radial-gradient(#76b2fe, #b69efe);
+  border-radius: 3%;
+	-webkit-animation: anim-glow-blue 1s ease infinite;
+	-moz-animation: anim-glow-blue 1s ease infinite;
+	animation: anim-glow-blue 1s ease infinite;
 }
 
-@keyframes gradient {
-	0% { background-position: 0% 50%; }
-	50% { background-position: 100% 50%; }
-	100% { background-position: 0% 50%; }
+@keyframes anim-glow-red {
+	100% { box-shadow: inset 0 0 red; }
+  0% { box-shadow: inset 0 0 50px 40px transparent; }
 }
 
-@-webkit-keyframes gradient {
-	0% { background-position: 0% 50%; }
-	50% { background-position: 100% 50%; }
-	100% { background-position: 0% 50%; }
+@-webkit-keyframes anim-glow-red {
+	100% { box-shadow: inset 0 0 red; }
+  0% { box-shadow: inset 0 0 50px 40px transparent; }
 }
 
-@-moz-keyframes gradient {
-	0% { background-position: 0% 50%; }
-	50% { background-position: 100% 50%; }
-	100% { background-position: 0% 50%; }
+@-moz-keyframes anim-glow-red {
+	100% { box-shadow: inset 0 0 red; }
+  0% { box-shadow: inset 0 0 50px 40px transparent; }
 }
 
+@keyframes anim-glow-blue {
+	100% { box-shadow: inset 0 0 blue; }
+  0% { box-shadow: inset 0 0 50px 40px transparent; }
+}
+
+@-webkit-keyframes anim-glow-blue {
+	100% { box-shadow: inset 0 0 blue; }
+  0% { box-shadow: inset 0 0 50px 40px transparent; }
+}
+
+@-moz-keyframes anim-glow-blue {
+	100% { box-shadow: inset 0 0 blue; }
+  0% { box-shadow: inset 0 0 50px 40px transparent; }
+}

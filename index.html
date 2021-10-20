@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <link rel="stylesheet" href="./css/base.css?v=1">
 </head>
-<body style="height: 100vh; margin: 0; overflow: hidden;">
+<body style="height: 100vh; margin: 0;">
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -276,7 +276,9 @@ function run() {
 
         // toggle기능 부여
         card.addEventListener("click", () => {
-          card.classList.toggle("flipped");
+          if (!card.classList.contains('flipped')) {
+            card.classList.toggle("flipped");
+          }
         });
       }
     };
